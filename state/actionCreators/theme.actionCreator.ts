@@ -1,5 +1,5 @@
 import {ActionTypes} from '../actionTypes/themeAction.types'
-import {themeAction} from '../actions/themeActions'
+import {themeAction} from '../actions/theme.actions'
 import {Dispatch} from "redux";
 
 export const changeLight = ()=>{

@@ -1,5 +1,5 @@
 import {ActionTypes} from '../actionTypes/userActions.types';
-import {userActions} from '../actions/userActions'
+import {userActions} from '../actions/user.actions'
 import {Dispatch} from "redux";
 
 

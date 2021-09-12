@@ -1,4 +1,4 @@
-import {userActions} from '../actions/userActions'
+import {userActions} from '../actions/user.actions'
 import {ActionTypes} from '../actionTypes/userActions.types'
 
 interface User {

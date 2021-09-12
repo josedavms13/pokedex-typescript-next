@@ -1,4 +1,4 @@
-import {themeAction} from '../actions/themeActions'
+import {themeAction} from '../actions/theme.actions'
 import {ActionTypes} from '../actionTypes/themeAction.types'
 
 interface generalAppType {
