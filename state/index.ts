@@ -1,3 +1,5 @@
 export {changeLight, changeDark} from './actionCreators/theme.actionCreator'
 export {userLogOut, setUser} from './actionCreators/user.actionCreator'
+export {fetchPokemons} from './actionCreators/pokemons.actionCreator'
+export {changeToEnglish, changeToSpanish} from './actionCreators/language.actionCreator'
 export * from './store'

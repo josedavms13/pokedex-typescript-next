@@ -9,7 +9,7 @@ const initialState = {
     pokemons: []
 };
 
-const pokemonReducer = (state:Pokemons, action:pokemonActions)=>{
+const pokemonReducer = (state:Pokemons = initialState, action:pokemonActions)=>{
     switch (action.type) {
 
         case ActionTypes.GET_POKEMONS_SUCCESS:
@@ -18,6 +18,8 @@ const pokemonReducer = (state:Pokemons, action:pokemonActions)=>{
         case ActionTypes.GET_POKEMONS_FAIL:
             return initialState
 
+        default:
+            return state
     }
 }
 
