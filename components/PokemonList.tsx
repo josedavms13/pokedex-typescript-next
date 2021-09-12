@@ -26,22 +26,30 @@ function PokemonList() {
     const [filter, setFilter] = useState<string>('');
     useEffect(() => {
         if (pokemons) {
-            console.log(Array.isArray(pokemons));
+            if (toShowPokemons) {
+                if (filter.length > 0) {
+                    setToShowPokemons(toShowPokemons.filter((element: any) => {
+                        if (filter === '') {
+                            return element
+                        } else if (element.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())) {
+                            return element
+                        }
 
-            setToShowPokemons(pokemons.sort((a: any, b: any) => {
-                return a.name > b.name ? 1 : -1
-            }));
+                    }))
+                } else {
+                    setToShowPokemons(pokemons.sort((a: any, b: any) => {
+                        return a.name > b.name ? 1 : -1
+                    }));
+                }
+            }
         }
+    }, [pokemons, filter,toShowPokemons]);
 
-    }, [pokemons]);
-
-    useEffect(() => {
-        console.log(filter);
-    }, [filter]);
     //endregion Pokemon List Handle
 
-    //region Display Modes
 
+
+    //region Display Modes
     const [displayMode, setDisplayMode] = useState<string>('list');
 
     useEffect(() => {
@@ -49,12 +57,15 @@ function PokemonList() {
         switch (displayMode){
             case 'list' :
                 console.log('list');
+                setItemsPerPage(7);
                 break
             case 'grid' :
                 console.log('grid');
+                setItemsPerPage(10);
                 break
             case 'details' :
                 console.log('details');
+                setItemsPerPage(4)
                 break
 
         }
@@ -68,31 +79,38 @@ function PokemonList() {
 
     //region Pagination
     const [currentPage, setCurrentPage] = useState<number>(1);
+    const [itemsPerPage, setItemsPerPage] = useState<number>(7);
+    const [numberOfPages, setNumberOfPages] = useState<number>(15);
+
+    useEffect(()=>{
+        if(toShowPokemons) {
+            console.log(toShowPokemons.length);
+            setNumberOfPages(Math.floor(toShowPokemons.length / itemsPerPage))
+        }
+    },[toShowPokemons, itemsPerPage])
+
+
     //endregion Pagination
 
 
     return (
         <div style={{'marginTop': '200px'}} >
 
-            <HeaderBar displayModeChange={(displayMode)=>setDisplayMode(displayMode)} filterChange={(filterText: string) => setFilter(filterText)}/>
+            <HeaderBar displayModeChange={(displayMode:string)=>setDisplayMode(displayMode)} filterChange={(filterText: string) => setFilter(filterText)}/>
+            <Footer currentPage={currentPage} totalPages={numberOfPages} onPageChange={(pageNumber:number)=>setCurrentPage(pageNumber)} changeToCurrentPage={(pageNumber:number)=> setCurrentPage(pageNumber)}/>
+
             {toShowPokemons && <div className="poke-list">
 
-                {toShowPokemons.filter((element: any) => {
-                    if (filter === '') {
-                        return element
-                    } else if (element.name.toLocaleLowerCase().includes(filter.toLocaleLowerCase())) {
-                        return element
-                    }
-
-                }).map((pokemonItem: any, index: number) => {
+                {
+                    toShowPokemons.slice(currentPage, currentPage + itemsPerPage).map((pokemonItem: any, index: number) => {
 
                     return (
 
                         <div key={index}>{pokemonItem.name}</div>
                     )
-                })}
+                })
+                }
             </div>}
-            <Footer currentPage={currentPage} totalPages={toShowPokemons.length} onPageChange={(pageNumber:number)=>setCurrentPage(pageNumber)}/>
         </div>
     );
 }
