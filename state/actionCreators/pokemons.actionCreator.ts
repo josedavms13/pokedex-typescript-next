@@ -12,7 +12,7 @@ export const fetchPokemons = ()=> async (dispatch:Dispatch) =>{
         const res = await getPokemons();
         dispatch({
             type: ActionTypes.GET_POKEMONS_SUCCESS,
-            payload: res.data
+            payload: res.data.results
         })
 
     }catch (e){

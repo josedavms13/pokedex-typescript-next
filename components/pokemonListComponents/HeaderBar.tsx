@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {RootState} from '../customTypes/reduxTypes'
+import {RootState} from "../../customTypes/reduxTypes";
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAddressCard ,faThList, faTh} from '@fortawesome/free-solid-svg-icons'
@@ -8,12 +8,13 @@ import {Nav, Form} from "react-bootstrap";
 import {useSelector} from "react-redux";
 
 
-function HeaderBar({filterChange}) {
+
+// @ts-ignore
+function HeaderBar({filterChange, displayModeChange}) {
 
     //region Language management
     const language = useSelector((state: RootState) => state.language)
 
-    console.log(language)
 
     interface languageObject {
         displayButtons: {
@@ -71,12 +72,13 @@ function HeaderBar({filterChange}) {
 
 
 
+
     return (
         <Nav>
             <Nav.Item>
-                <button>{labelsTxt.displayButtons.details} <FontAwesomeIcon icon={faAddressCard}/></button>
-                <button>{labelsTxt.displayButtons.list} <FontAwesomeIcon icon={faThList}/></button>
-                <button>{labelsTxt.displayButtons.grid} <FontAwesomeIcon icon={faTh}/></button>
+                <button onClick={()=>displayModeChange('details')}>{labelsTxt.displayButtons.details} <FontAwesomeIcon icon={faAddressCard}/></button>
+                <button onClick={()=>displayModeChange('list')}>{labelsTxt.displayButtons.list} <FontAwesomeIcon icon={faThList}/></button>
+                <button onClick={()=>displayModeChange('grid')}>{labelsTxt.displayButtons.grid} <FontAwesomeIcon icon={faTh}/></button>
             </Nav.Item>
             <Nav.Item>
 
