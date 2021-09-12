@@ -14,6 +14,11 @@
     "isolatedModules": true,
     "jsx": "preserve"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "../../../../../../../AppData/Local/JetBrains/WebStorm2021.2/javascript/typings/jest/27.0.1/node_modules/@types/jest/index.d.ts"
+  ],
   "exclude": ["node_modules"]
 }

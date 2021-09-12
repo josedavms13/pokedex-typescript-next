@@ -6,6 +6,9 @@ import {RootState} from '../customTypes/reduxTypes'
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faMoon, faSun} from '@fortawesome/free-solid-svg-icons'
+
 function Header() {
 
     const dispatch = useDispatch();
@@ -18,7 +21,7 @@ function Header() {
 
     return (
 
-        <Navbar bg={theme}>
+        <Navbar data-testid={'header-navbar'} bg={theme}>
 
             <Navbar bg={theme} expand="lg">
                 <Container>
@@ -26,8 +29,8 @@ function Header() {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
 
-                                <button onClick={() => dispatch(changeLight())}>Light Theme</button>
-                                <button onClick={() => dispatch(changeDark())}>Dark Theme</button>
+                                <button onClick={() => dispatch(changeLight())}><FontAwesomeIcon icon={faSun}/></button>
+                                <button onClick={() => dispatch(changeDark())}><FontAwesomeIcon icon={faMoon}/></button>
 
 
                                 <button onClick={() => dispatch(changeToEnglish())}>English</button>
