@@ -1,22 +1,44 @@
 import React from 'react';
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {changeLight, changeDark, changeToEnglish, changeToSpanish} from '../state'
+import {Container, Nav, Navbar} from "react-bootstrap";
+import {RootState} from '../customTypes/reduxTypes'
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Header() {
 
     const dispatch = useDispatch();
+    const theme = useSelector((state:RootState) => {
+        return state.theme.theme;
+    })
+
+
+
 
     return (
-        <div>
-            <div className="theme">
-                <button onClick={() => dispatch(changeLight())}>Light Theme</button>
-                <button onClick={() => dispatch(changeDark())}>Dark Theme</button>
-            </div>
-            <div className="language">
-                <button onClick={()=>dispatch(changeToEnglish())}>English</button>
-                <button onClick={()=>dispatch(changeToSpanish())}>Spanish</button>
-            </div>
-        </div>
+
+        <Navbar bg={theme}>
+
+            <Navbar bg={theme} expand="lg">
+                <Container>
+                    <Navbar.Toggle aria-controls="basic-navbar-nav"/>
+                    <Navbar.Collapse id="basic-navbar-nav">
+                        <Nav className="me-auto">
+
+                                <button onClick={() => dispatch(changeLight())}>Light Theme</button>
+                                <button onClick={() => dispatch(changeDark())}>Dark Theme</button>
+
+
+                                <button onClick={() => dispatch(changeToEnglish())}>English</button>
+                                <button onClick={() => dispatch(changeToSpanish())}>Spanish</button>
+
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+
+        </Navbar>
     );
 }
 

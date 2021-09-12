@@ -10,7 +10,6 @@ export const fetchPokemons = ()=> async (dispatch:Dispatch) =>{
         //services
 
         const res = await getPokemons();
-
         dispatch({
             type: ActionTypes.GET_POKEMONS_SUCCESS,
             payload: res.data
@@ -22,7 +21,8 @@ export const fetchPokemons = ()=> async (dispatch:Dispatch) =>{
             type: ActionTypes.GET_POKEMONS_FAIL,
         })
 
-        throw new Error('Error with fetching')
+        // @ts-ignore
+        throw new Error('Error with fetching ' + e.message);
     }
 
 

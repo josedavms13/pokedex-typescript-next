@@ -12,11 +12,6 @@ function PokemonList() {
         dispatch(fetchPokemons())
     },[dispatch])
 
-    const something = useSelector(state=> state)
-
-    console.log(something)
-
-
     return (
         <div className={styles.container}>
             <h1>Aki jue</h1>
