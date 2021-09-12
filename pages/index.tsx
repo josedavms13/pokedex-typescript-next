@@ -6,9 +6,10 @@ import Login from "./Login";
 
 const Home: NextPage = () => {
   return (
-    <div className={styles.container}>
+    <div className={'header'}>
         <Header />
-        <Login />
+
+        <PokemonList />
 
 
     </div>

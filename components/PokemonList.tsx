@@ -2,12 +2,15 @@ import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {fetchPokemons} from '../state'
 
+import styles from '../styles/Home.module.css'
+
 function PokemonList() {
 
+    const dispatch = useDispatch();
 
     useEffect(()=>{
-        fetchPokemons();
-    },[])
+        dispatch(fetchPokemons())
+    },[dispatch])
 
     const something = useSelector(state=> state)
 
@@ -15,7 +18,9 @@ function PokemonList() {
 
 
     return (
-        <div>
+        <div className={styles.container}>
+            <h1>Aki jue</h1>
+            <h4>=S</h4>
 
         </div>
     );

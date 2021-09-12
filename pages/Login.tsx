@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from '../customTypes/reduxTypes'
 import {setUser} from '../state/'
+import Header from "../components/Header";
 
 function Login() {
 
@@ -64,6 +65,7 @@ function Login() {
 
     return (
         <div>
+            <Header />
             <h2>{labelTxt.label}</h2>
             <input onChange={(event => setUserInput(event.target.value))} type="text"/>
             <button onClick={submitName} disabled={disableSubmitButton}>{labelTxt.submitButton}</button>
