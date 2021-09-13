@@ -13,6 +13,7 @@ function Footer({currentPage, totalPages, onPageChange, changeToCurrentPage}) {
     const [labelTxt, setLabelTxt] = useState({
         manualPageSelection: 'Type the page you want to visit',
         button: 'go',
+        buttonPlaceholder: 'Page number...'
     });
     useEffect(() => {
 
@@ -22,7 +23,8 @@ function Footer({currentPage, totalPages, onPageChange, changeToCurrentPage}) {
                 setLabelTxt({
                     ...labelTxt,
                     manualPageSelection:'Type the page you want to visit',
-                    button: 'Go'
+                    button: 'Go',
+                    buttonPlaceholder: 'Page number...'
                 })
 
                 break
@@ -31,7 +33,8 @@ function Footer({currentPage, totalPages, onPageChange, changeToCurrentPage}) {
                 setLabelTxt({
                     ...labelTxt,
                     manualPageSelection:'Ingresa el numero de la pagina que quieres visitar',
-                    button: 'Ir'
+                    button: 'Ir',
+                    buttonPlaceholder: 'Numero de página...'
                 })
 
                 break
@@ -42,10 +45,10 @@ function Footer({currentPage, totalPages, onPageChange, changeToCurrentPage}) {
     }, [language]);
 
 
-    const [userInputPageNumber, setUserInputPageNumber] = useState<number>(0);
+    const [userInputPageNumber, setUserInputPageNumber] = useState<string>('');
     const [disabledContinueButton, setDisabledContinueButton] = useState<boolean>(true);
     useEffect(() => {
-        userInputPageNumber > 0? setDisabledContinueButton(false):setDisabledContinueButton(true)
+        userInputPageNumber.length > 0? setDisabledContinueButton(false):setDisabledContinueButton(true)
     }, [userInputPageNumber]);
 
     return (
@@ -56,10 +59,10 @@ function Footer({currentPage, totalPages, onPageChange, changeToCurrentPage}) {
             <div className="pagination">
                 <Pagination current={currentPage} total={totalPages} maxWidth={60} onPageChange={(e)=>onPageChange(e)}/>
                 <label>{labelTxt.manualPageSelection}</label>
-                <input  min={0} max={totalPages} value={userInputPageNumber} onChange={(e)=>setUserInputPageNumber(Number(e.target.value))} placeholder={'type the page you want to visit'} type="number"/>
+                <input  min={0} max={totalPages} value={userInputPageNumber} onChange={(e)=>setUserInputPageNumber(e.target.value)} placeholder={labelTxt.buttonPlaceholder} type="number"/>
                 <button onClick={()=>{
-                    changeToCurrentPage(userInputPageNumber)
-                    setUserInputPageNumber(0);
+                    changeToCurrentPage(Number(userInputPageNumber))
+                    setUserInputPageNumber('');
 
                 }} disabled={disabledContinueButton}>{labelTxt.button}</button>
             </div>
