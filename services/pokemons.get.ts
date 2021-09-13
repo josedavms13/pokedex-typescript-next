@@ -9,3 +9,10 @@ export const getPokemons =()=>{
 
     return axios.get(url)
 }
+
+export const getSpecificPokemon= (url:string)=>{
+
+
+    return axios.get(url);
+
+}

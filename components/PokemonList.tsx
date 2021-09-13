@@ -7,6 +7,7 @@ import {fetchPokemons} from '../state'
 import styles from '../styles/Home.module.css'
 import HeaderBar from "./pokemonListComponents/HeaderBar";
 import Footer from "./Footer";
+import ListCard from "./pokemonListComponents/ListCard";
 
 function PokemonList() {
 
@@ -22,9 +23,10 @@ function PokemonList() {
 
     //region Pokemon List Handle
 
-    const [toShowPokemons, setToShowPokemons] = useState([]);
+    const [toShowPokemons, setToShowPokemons] = useState<any>([]);
     const [filter, setFilter] = useState<string>('');
     useEffect(() => {
+
         if (pokemons) {
             if (toShowPokemons) {
                 if (filter.length > 0) {
@@ -99,18 +101,19 @@ function PokemonList() {
             <HeaderBar displayModeChange={(displayMode:string)=>setDisplayMode(displayMode)} filterChange={(filterText: string) => setFilter(filterText)}/>
             <Footer currentPage={currentPage} totalPages={numberOfPages} onPageChange={(pageNumber:number)=>setCurrentPage(pageNumber)} changeToCurrentPage={(pageNumber:number)=> setCurrentPage(pageNumber)}/>
 
-            {toShowPokemons && <div className="poke-list">
+            {toShowPokemons.length > 0 && <div className="poke-list">
 
                 {
                     toShowPokemons.slice(currentPage, currentPage + itemsPerPage).map((pokemonItem: any, index: number) => {
 
                     return (
 
-                        <div key={index}>{pokemonItem.name}</div>
+                        <ListCard key={index} pokemonUrl={pokemonItem.url} name={pokemonItem.name}/>
                     )
                 })
                 }
             </div>}
+
         </div>
     );
 }
