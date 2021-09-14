@@ -8,10 +8,11 @@ import {decimetersToMeters, hectogramsToKilograms} from '../../utils/unitsConver
 
 interface pokemonCardList{
     pokemonUrl : string,
-    name: string
+    name: string,
+    displayMode : string
 }
 
-function ListCard({name, pokemonUrl}:pokemonCardList) {
+function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
 
     const [pokemonFetchResult, setPokemonFetchResult] = useState<any>(null);
     const [pokemonImages, setPokemonImages] = useState<string[]>(['']);
@@ -68,7 +69,6 @@ function ListCard({name, pokemonUrl}:pokemonCardList) {
             case 'spanish':
 
                 setLabelText({
-                    ...labelText,
                     typeTitle: 'Tipo principal',
                     physicCharacteristics: {
                         tittle:'Características físicas',
@@ -80,7 +80,6 @@ function ListCard({name, pokemonUrl}:pokemonCardList) {
             case 'english':
 
                 setLabelText({
-                    ...labelText,
                     typeTitle: 'Main Type',
                     physicCharacteristics: {
                         tittle:'Physical Characteristics',
@@ -93,7 +92,7 @@ function ListCard({name, pokemonUrl}:pokemonCardList) {
 
         }
 
-    },[language, labelText])
+    },[language])
 
 
 
@@ -128,6 +127,13 @@ function ListCard({name, pokemonUrl}:pokemonCardList) {
                         <span><b>{labelText.physicCharacteristics.weight}:</b> {hectogramsToKilograms(pokemonFetchResult.data.weight)} Kg</span>
 
                     </div>
+
+                    {displayMode === 'details'&&
+                    <div className="details-moves">
+
+                    </div>}
+
+
 
                 </div>
                 

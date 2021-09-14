@@ -107,7 +107,7 @@ function PokemonList() {
 
                     return (
 
-                        <ListCard key={index} pokemonUrl={pokemonItem.url} name={pokemonItem.name}/>
+                        <ListCard key={index} pokemonUrl={pokemonItem.url} name={pokemonItem.name} displayMode={displayMode} />
                     )
                 })
                 }
