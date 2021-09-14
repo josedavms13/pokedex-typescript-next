@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import '../styles/reset-settings.css'
 import type { AppProps } from 'next/app'
 import { Provider } from 'react-redux'
 import {store} from '../state'

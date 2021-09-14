@@ -4,6 +4,7 @@ import {RootState} from '../customTypes/reduxTypes'
 
 import {fetchPokemons} from '../state'
 
+import {grid, pokemonCardList} from '../styles/pokemonList/Pokemon-list-card.module.css'
 
 import HeaderBar from "./pokemonListComponents/HeaderBar";
 import Footer from "./Footer";
@@ -96,12 +97,11 @@ function PokemonList() {
 
 
     return (
-        <div style={{'marginTop': '200px'}} >
+        <div className={pokemonCardList}>
 
             <HeaderBar displayModeChange={(displayMode:string)=>setDisplayMode(displayMode)} filterChange={(filterText: string) => setFilter(filterText)}/>
-            <Footer currentPage={currentPage} totalPages={numberOfPages} onPageChange={(pageNumber:number)=>setCurrentPage(pageNumber)} changeToCurrentPage={(pageNumber:number)=> setCurrentPage(pageNumber)}/>
 
-            {toShowPokemons.length > 0 && <div className="poke-list">
+            {toShowPokemons.length > 0 && <div className={grid}>
 
                 {toShowPokemons.slice(currentPage, currentPage + itemsPerPage).map((pokemonItem: any, index: number) => {
 
@@ -112,6 +112,9 @@ function PokemonList() {
                 })
                 }
             </div>}
+
+            <Footer currentPage={currentPage} totalPages={numberOfPages} onPageChange={(pageNumber:number)=>setCurrentPage(pageNumber)} changeToCurrentPage={(pageNumber:number)=> setCurrentPage(pageNumber)}/>
+
 
         </div>
     );

@@ -1,11 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import {RootState} from "../../customTypes/reduxTypes";
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAddressCard ,faThList, faTh} from '@fortawesome/free-solid-svg-icons'
 
 import {Nav, Form} from "react-bootstrap";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 
 
@@ -68,13 +70,17 @@ function HeaderBar({filterChange, displayModeChange}) {
     }, [language]);
     //endregion  Language management
 
+    const theme = useSelector((state:RootState) => {
+        return state.theme.theme;
+    })
+
 
 
 
 
 
     return (
-        <Nav>
+        <Nav className={}>
             <Nav.Item>
                 <button onClick={()=>displayModeChange('details')}>{labelsTxt.displayButtons.details} <FontAwesomeIcon icon={faAddressCard}/></button>
                 <button onClick={()=>displayModeChange('list')}>{labelsTxt.displayButtons.list} <FontAwesomeIcon icon={faThList}/></button>
