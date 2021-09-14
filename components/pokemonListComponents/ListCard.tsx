@@ -12,7 +12,8 @@ interface pokemonCardList{
 function ListCard({name, pokemonUrl}:pokemonCardList) {
 
     const [pokemonFetchResult, setPokemonFetchResult] = useState<any>(null);
-
+    const [pokemonImages, setPokemonImages] = useState<string[]>(['']);
+    const [currentImage, setCurrentImage] = useState<string>('');
     console.log(name);
     console.log(pokemonUrl);
     useEffect(()=>{
@@ -23,9 +24,28 @@ function ListCard({name, pokemonUrl}:pokemonCardList) {
 
     useEffect(() => {
         console.log(pokemonFetchResult);
+
+        if (pokemonFetchResult) {
+            // @ts-ignore
+            setPokemonImages(Object.values(pokemonFetchResult.data.sprites).filter((element: any)=> {
+                return typeof element === 'string'
+            }))
+        }
+        
     }, [pokemonFetchResult]);
 
+    useEffect(() => {
+        console.log(pokemonImages)
+        if(pokemonImages) setCurrentImage(pokemonImages[0]);
+    }, [pokemonImages]);
 
+
+
+    function alternateImages(){
+        const imageIndex = Math.floor(Math.random() * pokemonImages.length)
+
+        setCurrentImage(pokemonImages[imageIndex]);
+    }
 
 
     return (
@@ -43,6 +63,10 @@ function ListCard({name, pokemonUrl}:pokemonCardList) {
 
                 <div className="characteristics">
 
+                </div>
+                
+                <div onClick={alternateImages} className="image">
+                    <img src={currentImage} alt={name}/>
                 </div>
 
             </div>

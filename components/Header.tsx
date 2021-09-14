@@ -21,7 +21,7 @@ function Header() {
 
     return (
 
-        <Navbar justify-content-center bg={theme} variant={'dark'}>
+        <Navbar bg={theme} variant={'dark'}>
 
             <Navbar bg={theme} expand="lg">
                 <Container>

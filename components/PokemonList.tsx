@@ -103,8 +103,7 @@ function PokemonList() {
 
             {toShowPokemons.length > 0 && <div className="poke-list">
 
-                {
-                    toShowPokemons.slice(currentPage, currentPage + itemsPerPage).map((pokemonItem: any, index: number) => {
+                {toShowPokemons.slice(currentPage, currentPage + itemsPerPage).map((pokemonItem: any, index: number) => {
 
                     return (
 
