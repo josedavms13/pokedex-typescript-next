@@ -18,25 +18,20 @@ function Footer({currentPage, totalPages, onPageChange, changeToCurrentPage}) {
     useEffect(() => {
 
         switch (language) {
-
             case 'english':
                 setLabelTxt({
-                    ...labelTxt,
                     manualPageSelection:'Type the page you want to visit',
                     button: 'Go',
                     buttonPlaceholder: 'Page number...'
                 })
-
                 break
 
             case 'spanish':
                 setLabelTxt({
-                    ...labelTxt,
                     manualPageSelection:'Ingresa el numero de la pagina que quieres visitar',
                     button: 'Ir',
                     buttonPlaceholder: 'Numero de página...'
                 })
-
                 break
 
 
@@ -47,6 +42,8 @@ function Footer({currentPage, totalPages, onPageChange, changeToCurrentPage}) {
 
     const [userInputPageNumber, setUserInputPageNumber] = useState<string>('');
     const [disabledContinueButton, setDisabledContinueButton] = useState<boolean>(true);
+
+    // Changes the page when user type it manually
     useEffect(() => {
         userInputPageNumber.length > 0? setDisabledContinueButton(false):setDisabledContinueButton(true)
     }, [userInputPageNumber]);

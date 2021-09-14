@@ -4,7 +4,7 @@ import {RootState} from '../customTypes/reduxTypes'
 
 import {fetchPokemons} from '../state'
 
-import styles from '../styles/Home.module.css'
+
 import HeaderBar from "./pokemonListComponents/HeaderBar";
 import Footer from "./Footer";
 import ListCard from "./pokemonListComponents/ListCard";
@@ -84,9 +84,9 @@ function PokemonList() {
     const [itemsPerPage, setItemsPerPage] = useState<number>(7);
     const [numberOfPages, setNumberOfPages] = useState<number>(15);
 
+    //Set number of pages depending on the amount of items to display in screen
     useEffect(()=>{
         if(toShowPokemons) {
-            console.log(toShowPokemons.length);
             setNumberOfPages(Math.floor(toShowPokemons.length / itemsPerPage))
         }
     },[toShowPokemons, itemsPerPage])

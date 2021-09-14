@@ -5,6 +5,7 @@ import {firstLetterCapitalize} from "../../utils/firstLetterCapitalize";
 import {useSelector} from "react-redux";
 import {RootState} from "../../customTypes/reduxTypes";
 import {decimetersToMeters, hectogramsToKilograms} from '../../utils/unitsConversion'
+import getFourAbilitiesIfExist from "../../utils/getFourAbilitiesIfExist";
 
 interface pokemonCardList{
     pokemonUrl : string,
@@ -17,6 +18,7 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
     const [pokemonFetchResult, setPokemonFetchResult] = useState<any>(null);
     const [pokemonImages, setPokemonImages] = useState<string[]>(['']);
     const [currentImage, setCurrentImage] = useState<string>('');
+    const [abilitiesToShow, setAbilitiesToShow] = useState<string[]>(['']);
 
     //Get particular pokemon info
     useEffect(()=>{
@@ -25,14 +27,20 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
             .catch(error => console.log(error))
     },[pokemonUrl])
 
-    // Filter sprites / Removing Null values and object types
+
+    // Filter Sprites // Assign abilities to show
     useEffect(() => {
-        console.log(pokemonFetchResult)
         if (pokemonFetchResult) {
+
+            // Filter sprites / Removing Null values and object types
             // @ts-ignore
             setPokemonImages(Object.values(pokemonFetchResult.data.sprites).filter((element: any)=> {
                 return typeof element === 'string'
             }))
+
+            // Assign abilities to Show
+            setAbilitiesToShow(getFourAbilitiesIfExist(pokemonFetchResult.data.moves));
+
         }
         
     }, [pokemonFetchResult]);
@@ -63,6 +71,8 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
             height: 'Height'
         }
     });
+
+    //Changes labels depending on language
     useEffect(()=>{
 
         switch (language) {
@@ -130,6 +140,16 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
 
                     {displayMode === 'details'&&
                     <div className="details-moves">
+                        <ul>
+                            {
+                                abilitiesToShow.map((ability:string, index:number)=>{
+                                    return <li key={index}>{firstLetterCapitalize(ability)}</li>
+                                })
+                            }
+                        </ul>
+
+
+
 
                     </div>}
 
