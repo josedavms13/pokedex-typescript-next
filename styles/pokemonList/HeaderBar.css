@@ -1,0 +1,24 @@
+
+
+.customNav{
+
+
+    padding: 10px;
+
+    display:flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.navItem{
+    width: 50%;
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+}
+
+.navItem> h6{
+    background-color: #eaeaea;
+}

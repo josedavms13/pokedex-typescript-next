@@ -103,7 +103,7 @@ function PokemonList() {
 
             {toShowPokemons.length > 0 && <div className={grid}>
 
-                {toShowPokemons.slice(currentPage, currentPage + itemsPerPage).map((pokemonItem: any, index: number) => {
+                {toShowPokemons.slice(currentPage*itemsPerPage , (currentPage*itemsPerPage + itemsPerPage)-1).map((pokemonItem: any, index: number) => {
 
                     return (
 

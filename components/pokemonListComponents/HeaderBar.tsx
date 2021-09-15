@@ -80,15 +80,16 @@ function HeaderBar({filterChange, displayModeChange}) {
 
 
     return (
-        <Nav className={}>
-            <Nav.Item>
+        <Nav className={'customNav'}>
+            <Nav.Item className={'navItem'}>
                 <button onClick={()=>displayModeChange('details')}>{labelsTxt.displayButtons.details} <FontAwesomeIcon icon={faAddressCard}/></button>
                 <button onClick={()=>displayModeChange('list')}>{labelsTxt.displayButtons.list} <FontAwesomeIcon icon={faThList}/></button>
                 <button onClick={()=>displayModeChange('grid')}>{labelsTxt.displayButtons.grid} <FontAwesomeIcon icon={faTh}/></button>
             </Nav.Item>
             <Nav.Item>
 
-                <Form.Group className={'mb-3'} >
+                <Form.Group className={'navItem'} >
+                    <h6>{labelsTxt.searchSection.label}</h6>
                     <Form.Control onChange={(event)=>filterChange(event.target.value)} type={'text'} placeholder={labelsTxt.searchSection.label}/>
 
                 </Form.Group>
