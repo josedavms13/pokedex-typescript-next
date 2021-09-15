@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {changeLight, changeDark, changeToEnglish, changeToSpanish, setSpeech} from '../state'
+import {changeLight, changeDark, changeToEnglish, changeToSpanish} from '../state'
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {RootState} from '../customTypes/reduxTypes'
 
@@ -8,6 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faMoon, faSun} from '@fortawesome/free-solid-svg-icons'
+import Login from "./Login";
 
 function Header() {
 
@@ -32,7 +33,6 @@ function Header() {
 
                                 <button onClick={() => {
                                     dispatch(changeLight());
-                                    dispatch(setSpeech('light'));
                                 }}><FontAwesomeIcon icon={faSun}/></button>
                                 <button onClick={() => dispatch(changeDark())}><FontAwesomeIcon icon={faMoon}/></button>
 
@@ -44,6 +44,8 @@ function Header() {
                     </Navbar.Collapse>
                 </Container>
             </Navbar>
+
+            <Login />
 
         </Navbar>
     );

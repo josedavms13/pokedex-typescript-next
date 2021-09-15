@@ -2,44 +2,25 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from '../customTypes/reduxTypes'
 
-import {setSpeech} from '../state/actionCreators/speech.actionCreator'
 import {fetchPokemons} from '../state'
 
 // @ts-ignore
-import { grid ,pokemonCardList} from '../styles/pokemonList/Pokemon-list-card.module.css'
+import {grid, pokemonCardList} from '../styles/pokemonList/Pokemon-list-card.module.css'
 
 import HeaderBar from "./pokemonListComponents/HeaderBar";
 import Footer from "./Footer";
 import ListCard from "./pokemonListComponents/ListCard";
-import {mainPageDialogs} from "../assets/dialogs/mainPage.dialogs";
 
 function PokemonList() {
 
     //redux
     const dispatch = useDispatch();
     const pokemons = useSelector((state: RootState) => state.pokemons.pokemons);
-    const user = useSelector((state: RootState) => state.user.name);
-    const language = useSelector((state: RootState) => state.language);
 
     //Fetch Pokemons
     useEffect(() => {
         dispatch(fetchPokemons())
-
-        console.log(user);
-
     }, [dispatch])
-
-    useEffect(() => {
-        switch (language) {
-            case 'english':
-                dispatch(setSpeech(mainPageDialogs(user).spanish))
-                break
-            case 'spanish':
-                dispatch(setSpeech(mainPageDialogs(user).english))
-        }
-
-    }, [dispatch, language]);
-
 
 
     //region Pokemon List Handle
@@ -66,10 +47,9 @@ function PokemonList() {
                 }
             }
         }
-    }, [pokemons, filter,toShowPokemons]);
+    }, [pokemons, filter, toShowPokemons]);
 
     //endregion Pokemon List Handle
-
 
 
     //region Display Modes
@@ -77,7 +57,7 @@ function PokemonList() {
 
     useEffect(() => {
 
-        switch (displayMode){
+        switch (displayMode) {
             case 'list' :
                 console.log('list');
                 setItemsPerPage(7);
@@ -96,7 +76,6 @@ function PokemonList() {
     }, [displayMode]);
 
 
-
     //endregion Display Modes
 
 
@@ -106,36 +85,38 @@ function PokemonList() {
     const [numberOfPages, setNumberOfPages] = useState<number>(15);
 
     //Set number of pages depending on the amount of items to display in screen
-    useEffect(()=>{
-        if(toShowPokemons) {
+    useEffect(() => {
+        if (toShowPokemons) {
             setNumberOfPages(Math.floor(toShowPokemons.length / itemsPerPage))
         }
-    },[toShowPokemons, itemsPerPage])
+    }, [toShowPokemons, itemsPerPage])
 
 
     //endregion Pagination
 
 
-
-
     return (
         <div className={pokemonCardList}>
 
-            <HeaderBar displayModeChange={(displayMode:string)=>setDisplayMode(displayMode)} filterChange={(filterText: string) => setFilter(filterText)}/>
+            <HeaderBar displayModeChange={(displayMode: string) => setDisplayMode(displayMode)}
+                       filterChange={(filterText: string) => setFilter(filterText)}/>
 
             {toShowPokemons.length > 0 && <div className={grid}>
 
-                {toShowPokemons.slice(currentPage*itemsPerPage , (currentPage*itemsPerPage + itemsPerPage)-1).map((pokemonItem: any, index: number) => {
+                {toShowPokemons.slice(currentPage * itemsPerPage, (currentPage * itemsPerPage + itemsPerPage) - 1).map((pokemonItem: any, index: number) => {
 
                     return (
 
-                        <ListCard key={index} pokemonUrl={pokemonItem.url} name={pokemonItem.name} displayMode={displayMode} />
+                        <ListCard key={index} pokemonUrl={pokemonItem.url} name={pokemonItem.name}
+                                  displayMode={displayMode}/>
                     )
                 })
                 }
             </div>}
 
-            <Footer currentPage={currentPage} totalPages={numberOfPages} onPageChange={(pageNumber:number)=>setCurrentPage(pageNumber)} changeToCurrentPage={(pageNumber:number)=> setCurrentPage(pageNumber)}/>
+            <Footer currentPage={currentPage} totalPages={numberOfPages}
+                    onPageChange={(pageNumber: number) => setCurrentPage(pageNumber)}
+                    changeToCurrentPage={(pageNumber: number) => setCurrentPage(pageNumber)}/>
 
 
         </div>

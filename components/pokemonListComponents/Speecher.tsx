@@ -5,7 +5,7 @@ import {RootState} from '../../customTypes/reduxTypes'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faPlay, faStop} from '@fortawesome/free-solid-svg-icons'
 
-import {setSpeech} from '../../state/actionCreators/speech.actionCreator'
+import {setSpeech} from '../../state'
 
 function Speecher() {
 
@@ -27,7 +27,7 @@ function Speecher() {
 
 
         }
-    },[speech, dispatch, language])
+    },[speech, dispatch])
 
     useEffect(() => {
         if (currentUtterance && canPlay) {
@@ -35,19 +35,23 @@ function Speecher() {
 
             switch (language){
                 case 'spanish':
-                    currentUtterance.language = 'es';
+                    currentUtterance.lang = 'es-co';
                     speechSynthesis.speak(currentUtterance);
                     break
 
                 case 'english':
-                    currentUtterance.language = 'en';
+                    currentUtterance.lang = 'en-us';
                     speechSynthesis.speak(currentUtterance);
 
                     break
             }
 
         }
-        dispatch(setSpeech(''));
+
+        setTimeout(()=>{
+
+            dispatch(setSpeech(''));
+        },500)
     }, [dispatch, currentUtterance, language, canPlay]);
 
 
@@ -66,15 +70,6 @@ function Speecher() {
         }
     }, [canPlay]);
 
-
-
-
-
-    function playText(text:string):void{
-
-
-
-    }
 
 
     return (

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import React, {useEffect, useState} from 'react';
 import {getSpecificPokemon} from '../../services/pokemons.get'
 import {firstLetterCapitalize} from "../../utils/firstLetterCapitalize";
@@ -32,7 +31,7 @@ function ListCard({name, pokemonUrl, displayMode}: pokemonCardList) {
             .catch(error => console.log(error))
     }, [pokemonUrl])
 
-
+    //region Card Images
     // Filter Sprites // Assign abilities to show
     useEffect(() => {
         if (pokemonFetchResult) {
@@ -52,6 +51,7 @@ function ListCard({name, pokemonUrl, displayMode}: pokemonCardList) {
     }, [pokemonFetchResult]);
 
 
+
     // Initialize default sprite to show
     useEffect(() => {
         if (pokemonImages) setCurrentImage(pokemonImages[2]);
@@ -62,6 +62,7 @@ function ListCard({name, pokemonUrl, displayMode}: pokemonCardList) {
         return Math.floor(Math.random() * pokemonImages.length)
     }
 
+    //endregion Card Images
 
     //region Language management
 
@@ -111,27 +112,27 @@ function ListCard({name, pokemonUrl, displayMode}: pokemonCardList) {
 
     const [cardSpeech, setCardSpeech] = useState<string>('');
 
+    // Set speech depending on language
     useEffect(() => {
-
         if (pokemonFetchResult) {
             switch (language) {
 
                 case 'english':
                     setCardSpeech(
                         `
-                        ${name}, a pokemon type of ${pokemonFetchResult.data.types[0].type.name}. Their average weight is ${pokemonFetchResult.data.weight} kilograms and can grow up to ${pokemonFetchResult.data.height} meters
+                        ${name}, a pokemon type of ${pokemonFetchResult.data.types[0].type.name}. Their average weight is ${hectogramsToKilograms(pokemonFetchResult.data.weight)} kilograms and can grow up to ${decimetersToMeters(pokemonFetchResult.data.height)} meters. Its main move are ${abilitiesToShow[0]} and ${abilitiesToShow[1]}  
                         `
                     )
                     break
 
                 case 'spanish':
-                    setCardSpeech(`${name}, un pokemon de tipo ${pokemonFetchResult.data.types[0].type.name}. Suelen pesar alrededor de ${pokemonFetchResult.data.weight} kilogramos y crecer hasta ${pokemonFetchResult.data.height} metros`)
+                    setCardSpeech(`${name}, un pokemon de tipo ${pokemonFetchResult.data.types[0].type.name}. Suelen pesar alrededor de ${hectogramsToKilograms(pokemonFetchResult.data.weight)} kilogramos y crecer hasta ${decimetersToMeters(pokemonFetchResult.data.height)} metros. Sus movimientos principales son ${abilitiesToShow[0]} y ${abilitiesToShow[1]}`)
                     break
 
             }
         }
 
-    }, [name, language, pokemonFetchResult])
+    }, [abilitiesToShow, name, language, pokemonFetchResult])
 
 
     //endregion Language management

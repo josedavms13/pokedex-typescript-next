@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from '../customTypes/reduxTypes'
-import {setUser} from '../state/'
-import Header from "../components/Header";
+import {setUser, setSpeech} from '../state'
+import {mainPageDialogs} from "../assets/dialogs/mainPage.dialogs";
 
 function Login() {
 
 
     //Redux
     const language = useSelector((state:RootState) => state.language);
+    const theme = useSelector((state : RootState)=> state.theme.theme);
     const dispatch = useDispatch();
 
 
@@ -44,6 +45,22 @@ function Login() {
     //endregion Language management
 
 
+    const [letterColor, setLetterColor] = useState({'color': 'white'});
+    useEffect(() => {
+
+        switch (theme){
+            case 'dark':
+                setLetterColor({'color': 'white'})
+                break
+            case 'light':
+                setLetterColor({'color': 'black'})
+                break
+        }
+
+    }, [theme]);
+
+
+
 
     //region Submit button actions
 
@@ -57,6 +74,13 @@ function Login() {
 
     function submitName():void{
 
+        switch (language) {
+            case 'english':
+                dispatch(setSpeech(mainPageDialogs(userInput).english))
+                break
+            case 'spanish':
+                dispatch(setSpeech(mainPageDialogs(userInput).spanish))
+        }
         dispatch(setUser(userInput));
     }
 
@@ -65,8 +89,7 @@ function Login() {
 
     return (
         <div>
-            <Header />
-            <h2>{labelTxt.label}</h2>
+            <h2 style={letterColor}>{labelTxt.label}</h2>
             <input onChange={(event => setUserInput(event.target.value))} type="text"/>
             <button onClick={submitName} disabled={disableSubmitButton}>{labelTxt.submitButton}</button>
         </div>

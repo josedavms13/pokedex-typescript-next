@@ -7,7 +7,7 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAddressCard ,faThList, faTh} from '@fortawesome/free-solid-svg-icons'
 
 import {Nav, Form} from "react-bootstrap";
-import {useDispatch, useSelector} from "react-redux";
+import { useSelector} from "react-redux";
 
 
 
@@ -69,14 +69,6 @@ function HeaderBar({filterChange, displayModeChange}) {
         }
     }, [language]);
     //endregion  Language management
-
-    const theme = useSelector((state:RootState) => {
-        return state.theme.theme;
-    })
-
-
-
-
 
 
     return (
