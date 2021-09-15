@@ -2,30 +2,35 @@ import Image from "next/image";
 import React, {useEffect, useState} from 'react';
 import {getSpecificPokemon} from '../../services/pokemons.get'
 import {firstLetterCapitalize} from "../../utils/firstLetterCapitalize";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from "../../customTypes/reduxTypes";
 import {decimetersToMeters, hectogramsToKilograms} from '../../utils/unitsConversion'
 import getFourAbilitiesIfExist from "../../utils/getFourAbilitiesIfExist";
+import {card} from '../../styles/Home.module.css'
+import {setSpeech} from '../../state'
 
-interface pokemonCardList{
-    pokemonUrl : string,
+interface pokemonCardList {
+    pokemonUrl: string,
     name: string,
-    displayMode : string
+    displayMode: string
 }
 
-function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
+function ListCard({name, pokemonUrl, displayMode}: pokemonCardList) {
+
+    const dispatch = useDispatch();
 
     const [pokemonFetchResult, setPokemonFetchResult] = useState<any>(null);
     const [pokemonImages, setPokemonImages] = useState<string[]>(['']);
     const [currentImage, setCurrentImage] = useState<string>('');
     const [abilitiesToShow, setAbilitiesToShow] = useState<string[]>(['']);
 
+
     //Get particular pokemon info
-    useEffect(()=>{
+    useEffect(() => {
         getSpecificPokemon(pokemonUrl)
-            .then((data:any) => setPokemonFetchResult(data))
+            .then((data: any) => setPokemonFetchResult(data))
             .catch(error => console.log(error))
-    },[pokemonUrl])
+    }, [pokemonUrl])
 
 
     // Filter Sprites // Assign abilities to show
@@ -34,46 +39,46 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
 
             // Filter sprites / Removing Null values and object types
             // @ts-ignore
-            setPokemonImages(Object.values(pokemonFetchResult.data.sprites).filter((element: any)=> {
+            setPokemonImages(Object.values(pokemonFetchResult.data.sprites).filter((element: any) => {
                 return typeof element === 'string'
             }))
 
             // Assign abilities to Show
             setAbilitiesToShow(getFourAbilitiesIfExist(pokemonFetchResult.data.moves));
 
+
         }
-        
+
     }, [pokemonFetchResult]);
 
 
     // Initialize default sprite to show
     useEffect(() => {
-        if(pokemonImages) setCurrentImage(pokemonImages[2]);
+        if (pokemonImages) setCurrentImage(pokemonImages[2]);
     }, [pokemonImages]);
 
 
-
-    function alternateImages():number{
+    function alternateImages(): number {
         return Math.floor(Math.random() * pokemonImages.length)
     }
-
 
 
     //region Language management
 
 
-    const language = useSelector((state:RootState)=>state.language);
+    const language = useSelector((state: RootState) => state.language);
     const [labelText, setLabelText] = useState<any>({
         typeTitle: 'Main Type',
         physicCharacteristics: {
-            tittle:'Physical Characteristics',
-            weight : 'Weight',
+            tittle: 'Physical Characteristics',
+            weight: 'Weight',
             height: 'Height'
         }
     });
 
+
     //Changes labels depending on language
-    useEffect(()=>{
+    useEffect(() => {
 
         switch (language) {
             case 'spanish':
@@ -81,8 +86,8 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
                 setLabelText({
                     typeTitle: 'Tipo principal',
                     physicCharacteristics: {
-                        tittle:'Características físicas',
-                        weight : 'Peso',
+                        tittle: 'Características físicas',
+                        weight: 'Peso',
                         height: 'Altura'
                     }
                 })
@@ -92,8 +97,8 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
                 setLabelText({
                     typeTitle: 'Main Type',
                     physicCharacteristics: {
-                        tittle:'Physical Characteristics',
-                        weight : 'Weight',
+                        tittle: 'Physical Characteristics',
+                        weight: 'Weight',
                         height: 'Height'
                     }
                 })
@@ -102,14 +107,34 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
 
         }
 
-    },[language])
+    }, [language])
 
+    const [cardSpeech, setCardSpeech] = useState<string>('');
+
+    useEffect(() => {
+
+        if (pokemonFetchResult) {
+            switch (language) {
+
+                case 'english':
+                    setCardSpeech(
+                        `
+                        ${name}, a pokemon type of ${pokemonFetchResult.data.types[0].type.name}. Their average weight is ${pokemonFetchResult.data.weight} kilograms and can grow up to ${pokemonFetchResult.data.height} meters
+                        `
+                    )
+                    break
+
+                case 'spanish':
+                    setCardSpeech(`${name}, un pokemon de tipo ${pokemonFetchResult.data.types[0].type.name}. Suelen pesar alrededor de ${pokemonFetchResult.data.weight} kilogramos y crecer hasta ${pokemonFetchResult.data.height} metros`)
+                    break
+
+            }
+        }
+
+    }, [name, language, pokemonFetchResult])
 
 
     //endregion Language management
-
-
-
 
 
     return (
@@ -117,8 +142,7 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
 
 
             {pokemonFetchResult &&
-            <div>
-
+            <div className={card}>
 
 
                 <div className="name">
@@ -126,38 +150,38 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
                 </div>
 
                 <div className="characteristics">
-                    <div className="types">
-                        <h6>{labelText.typeTitle}</h6>
-                        {firstLetterCapitalize(pokemonFetchResult.data.types[0].type.name)}
-                    </div>
+                    <div onClick={() => dispatch(setSpeech(cardSpeech))} className="poke-info">
+                        <div className="types">
+                            <h6>{labelText.typeTitle}</h6>
+                            {firstLetterCapitalize(pokemonFetchResult.data.types[0].type.name)}
+                        </div>
 
-                    <div className="physic-characteristics">
-                        <h6>{labelText.physicCharacteristics.title}</h6>
-                        <span><b>{labelText.physicCharacteristics.height}:</b> {decimetersToMeters(pokemonFetchResult.data.height)} m</span>
-                        <span><b>{labelText.physicCharacteristics.weight}:</b> {hectogramsToKilograms(pokemonFetchResult.data.weight)} Kg</span>
+                        <div className="physic-characteristics">
+                            <h6>{labelText.physicCharacteristics.title}</h6>
+                            <span><b>{labelText.physicCharacteristics.height}:</b> {decimetersToMeters(pokemonFetchResult.data.height)} m</span>
+                            <span><b>{labelText.physicCharacteristics.weight}:</b> {hectogramsToKilograms(pokemonFetchResult.data.weight)} Kg</span>
 
-                    </div>
+                        </div>
 
-                    {displayMode === 'details'&&
-                    <div className="details-moves">
-                        <ul>
-                            {
-                                abilitiesToShow.map((ability:string, index:number)=>{
-                                    return <li key={index}>{firstLetterCapitalize(ability)}</li>
-                                })
-                            }
-                        </ul>
-
-
+                        {displayMode === 'details' &&
+                        <div className="details-moves">
+                            <ul>
+                                {
+                                    abilitiesToShow.map((ability: string, index: number) => {
+                                        return <li key={index}>{firstLetterCapitalize(ability)}</li>
+                                    })
+                                }
+                            </ul>
 
 
-                    </div>}
-
+                        </div>}</div>
 
 
                 </div>
-                
-                <div onClick={()=>{setCurrentImage(pokemonImages[alternateImages()])}} className="image">
+
+                <div onClick={() => {
+                    setCurrentImage(pokemonImages[alternateImages()])
+                }} className="image">
                     <img src={currentImage} alt={name}/>
                 </div>
 

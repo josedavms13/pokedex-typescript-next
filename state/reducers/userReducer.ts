@@ -7,7 +7,7 @@ interface User {
 }
 
 const initialState : User = {
-    name: ''
+    name: 'Pepito'
 }
 
 

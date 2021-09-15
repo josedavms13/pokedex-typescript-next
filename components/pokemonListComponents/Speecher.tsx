@@ -1,14 +1,24 @@
 import React, {useEffect, useState} from 'react';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {RootState} from '../../customTypes/reduxTypes'
 
+import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import {faPlay, faStop} from '@fortawesome/free-solid-svg-icons'
+
+import {setSpeech} from '../../state/actionCreators/speech.actionCreator'
 
 function Speecher() {
 
     const speech = useSelector((state: RootState) => state.speech)
+    const language = useSelector((state:RootState) => state.language)
+    const dispatch = useDispatch();
 
+    const [buttonLabel, setButtonLabel] = useState(faPlay);
     const [currentUtterance, setCurrentUtterance] = useState<any>(null);
+    const [canPlay, setCanPlay] = useState<boolean>(true);
     const [volume, setVolume] = useState<number>(0);
+
+
     useEffect(()=>{
         if(speech.length > 0){
 
@@ -16,17 +26,49 @@ function Speecher() {
 
 
 
+        }
+    },[speech, dispatch, language])
+
+    useEffect(() => {
+        if (currentUtterance && canPlay) {
+
+
+            switch (language){
+                case 'spanish':
+                    currentUtterance.language = 'es';
+                    speechSynthesis.speak(currentUtterance);
+                    break
+
+                case 'english':
+                    currentUtterance.language = 'en';
+                    speechSynthesis.speak(currentUtterance);
+
+                    break
+            }
 
         }
-    },[speech])
+        dispatch(setSpeech(''));
+    }, [dispatch, currentUtterance, language, canPlay]);
+
 
     useEffect(() => {
         console.log(volume);
-    }, [volume]);
+        if(currentUtterance){
+            currentUtterance.volume = volume
+        }
+    }, [currentUtterance, volume]);
+
+    useEffect(() => {
+        if(canPlay){
+            setButtonLabel(faStop)
+        }else{
+            setButtonLabel(faPlay)
+        }
+    }, [canPlay]);
 
 
 
-    const utterance = new SpeechSynthesisUtterance()
+
 
     function playText(text:string):void{
 
@@ -37,8 +79,8 @@ function Speecher() {
 
     return (
         <div>
-            <input  min={0} max={10} defaultValue={0.5} onChange={(e)=>setVolume(Number(e.target.value)/10)} type="range"/>
-            <button>Mute</button>
+            <input  min={0} max={10} defaultValue={5} onChange={(e)=>setVolume(Number(e.target.value)/10)} type="range"/>
+            <button onClick={()=>setCanPlay(!canPlay)}><FontAwesomeIcon icon={buttonLabel} /></button>
         </div>
     );
 }

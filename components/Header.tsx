@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {changeLight, changeDark, changeToEnglish, changeToSpanish} from '../state'
+import {changeLight, changeDark, changeToEnglish, changeToSpanish, setSpeech} from '../state'
 import {Container, Nav, Navbar} from "react-bootstrap";
 import {RootState} from '../customTypes/reduxTypes'
 
@@ -30,7 +30,10 @@ function Header() {
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="me-auto">
 
-                                <button onClick={() => dispatch(changeLight())}><FontAwesomeIcon icon={faSun}/></button>
+                                <button onClick={() => {
+                                    dispatch(changeLight());
+                                    dispatch(setSpeech('light'));
+                                }}><FontAwesomeIcon icon={faSun}/></button>
                                 <button onClick={() => dispatch(changeDark())}><FontAwesomeIcon icon={faMoon}/></button>
 
 

@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {RootState} from '../customTypes/reduxTypes'
 
+import {setSpeech} from '../state/actionCreators/speech.actionCreator'
 import {fetchPokemons} from '../state'
 
 // @ts-ignore
@@ -10,17 +11,35 @@ import { grid ,pokemonCardList} from '../styles/pokemonList/Pokemon-list-card.mo
 import HeaderBar from "./pokemonListComponents/HeaderBar";
 import Footer from "./Footer";
 import ListCard from "./pokemonListComponents/ListCard";
+import {mainPageDialogs} from "../assets/dialogs/mainPage.dialogs";
 
 function PokemonList() {
 
     //redux
     const dispatch = useDispatch();
     const pokemons = useSelector((state: RootState) => state.pokemons.pokemons);
+    const user = useSelector((state: RootState) => state.user.name);
+    const language = useSelector((state: RootState) => state.language);
 
     //Fetch Pokemons
     useEffect(() => {
         dispatch(fetchPokemons())
+
+        console.log(user);
+
     }, [dispatch])
+
+    useEffect(() => {
+        switch (language) {
+            case 'english':
+                dispatch(setSpeech(mainPageDialogs(user).spanish))
+                break
+            case 'spanish':
+                dispatch(setSpeech(mainPageDialogs(user).english))
+        }
+
+    }, [dispatch, language]);
+
 
 
     //region Pokemon List Handle
@@ -95,6 +114,8 @@ function PokemonList() {
 
 
     //endregion Pagination
+
+
 
 
     return (
