@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Pagination from 'react-responsive-pagination'
 import {useSelector} from "react-redux";
 import {RootState} from '../customTypes/reduxTypes'
+import Speecher from "./pokemonListComponents/Speecher";
 
 
 // @ts-ignore
@@ -62,6 +63,11 @@ function Footer({currentPage, totalPages, onPageChange, changeToCurrentPage}) {
                     setUserInputPageNumber('');
 
                 }} disabled={disabledContinueButton}>{labelTxt.button}</button>
+            </div>
+
+            <div className="speech-container">
+                <Speecher />
+
             </div>
         </div>
     );

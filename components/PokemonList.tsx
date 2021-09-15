@@ -4,7 +4,8 @@ import {RootState} from '../customTypes/reduxTypes'
 
 import {fetchPokemons} from '../state'
 
-import {grid, pokemonCardList} from '../styles/pokemonList/Pokemon-list-card.module.css'
+// @ts-ignore
+import { grid ,pokemonCardList} from '../styles/pokemonList/Pokemon-list-card.module.css'
 
 import HeaderBar from "./pokemonListComponents/HeaderBar";
 import Footer from "./Footer";

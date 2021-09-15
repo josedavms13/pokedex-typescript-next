@@ -48,7 +48,7 @@ function ListCard({name, pokemonUrl, displayMode}:pokemonCardList) {
 
     // Initialize default sprite to show
     useEffect(() => {
-        if(pokemonImages) setCurrentImage(pokemonImages[0]);
+        if(pokemonImages) setCurrentImage(pokemonImages[2]);
     }, [pokemonImages]);
 
 
